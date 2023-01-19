@@ -1,0 +1,24 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths({ paginate }) {
+	const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=150`);
+	const result = await response.json();
+	const allPokemon = result.results;
+	return paginate(allPokemon, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout title="cool">
+	<h1>Wow</h1>
+	<div>
+		If you go to <code>/poke/1</code> or whatever, <br />
+		it'll show a pokemon name below
+	</div>
+
+	Name: {page.data[0].name}
+	<br />
+	<a href="/">go home</a>
+</Layout>
